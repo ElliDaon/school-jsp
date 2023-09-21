@@ -1,0 +1,76 @@
+@charset "utf-8";
+
+body {
+	background-color: #408080;
+	color: yellow;
+	margin-left: 30px;
+	margin-right: 30px;
+	line-height: 1.6;
+	text-align: justify;
+}
+
+h3 {
+	text-align: center;
+	color: white;
+}
+
+h3>span {
+	color: orange;
+}
+
+/*id 셀렉터*/
+#subj {
+	color: lightgreen;
+}
+
+#title {
+	color: white;
+	font-size: 20px;
+	font-weight: 900;
+}
+
+#name {
+	font-weight: 900;
+	color: white;
+}
+
+#pro {
+	color: white;
+}
+
+#txtstyle {
+	text-align: center;
+}
+
+p>strong {
+	background: yellow;
+	color: #408080
+}
+
+/*자손 셀렉터*/
+ul strong {
+	color: dodgerblue;
+}
+
+/*자식 셀렉터*/
+div>strong {
+	color: navy;
+	background: yellow;
+}
+
+input[type=text] {
+	color: red;
+}
+
+a {
+	text-decoration: none; /*밑줄제거*/
+}
+
+a:visited {
+	color: pink;
+}
+
+li:hover {
+	background: yellow;
+	color: navy;
+}

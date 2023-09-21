@@ -1,0 +1,28 @@
+@charset "EUC-KR";
+
+body{
+	background: skyblue;
+}
+h3{
+	color:green;
+	font-weight:bolder;
+}
+#center{
+	text-align:center;
+	color: blue;
+}
+
+div{
+	text-indent:3em;
+}
+div>strong{
+	background:yellow;
+	color: blue;
+}
+div em{
+	color: green;
+	font-style:italic;
+}
+.indent  strong{
+	color:red;
+}
