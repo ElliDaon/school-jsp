@@ -155,4 +155,24 @@ public class BoardDao {
 		}
 		return bv;
 	}
+	
+	public int boardCntUpdate(int bidx){
+		int exec = 0;
+		
+		String sql = "UPDATE board0803 set\r\n"
+				+ "viewcnt = viewcnt+1\r\n"
+				+ "where bidx = ?";
+		
+				
+				try{
+				pstmt = conn.prepareStatement(sql);
+				pstmt.setInt(1,bidx);
+				exec = pstmt.executeUpdate();
+				
+				} catch(Exception e){
+					e.printStackTrace();
+				}
+		
+		return exec;
+	}
 }

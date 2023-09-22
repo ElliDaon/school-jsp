@@ -126,16 +126,18 @@ td #userName{
 		<table>
 			<tr>
 				<th><div id="name_title">제목</div></th>
-				<td><div id="title">안녕</div></td>
+				<td><div id="title"><%=bv.getSubject() %></div></td>
+				<th>조회수</th>
+				<td><%=bv.getViewcnt() %></td>
 			</tr>
 			<tr>
 				<th ><div id="name_contents">내용</div></th>
-				<td height="300px" style="vertical-align: top;"><div id="contents">안녕하세요. 반갑습니다. 대단히 반갑습니다.
+				<td colspan=3 height="300px" style="vertical-align: top;"><div id="contents"><%=bv.getContents() %>
 				</div></td>
 			</tr>
 			<tr>
 				<th><div id="name_title">작성자</div></th>
-				<td><div id="userName">홍길동</div></td>
+				<td><div id="userName"><%=bv.getWriter() %></div></td>
 			</tr>
 		</table>
 		
