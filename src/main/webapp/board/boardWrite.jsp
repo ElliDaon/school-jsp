@@ -10,7 +10,7 @@
 <html>
 <head>
 <meta charset="utf-8">
-<title>Insert title here</title>
+<title>게시물 작성</title>
 <style>
 body {
 	background: #f6f4f3;
