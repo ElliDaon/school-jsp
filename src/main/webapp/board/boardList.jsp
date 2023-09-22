@@ -141,7 +141,7 @@ strong{
 			<% for(BoardVo bv : list ) {%>
 			<tr>
 			<td><%=bv.getBidx() %></td>
-			<td><a href="<%=request.getContextPath()%>/board/boardContents.do"><%=bv.getSubject() %></a></td>
+			<td><a href="<%=request.getContextPath()%>/board/boardContents.do?bidx=<%=bv.getBidx() %>"><%=bv.getSubject() %></a></td>
 			<td><%=bv.getWriter() %></td>
 			<td><%=bv.getViewcnt() %></td>
 			<td><%=bv.getWriteday() %></td>

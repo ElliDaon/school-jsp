@@ -1,5 +1,9 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ page import="app.domain.BoardVo" %>
+<%
+BoardVo bv = (BoardVo)request.getAttribute("bv");
+%>
 <!DOCTYPE html>
 <html>
 <head>

@@ -75,6 +75,13 @@ public class BoardController extends HttpServlet {
 			
 		}else if(loaction.equals("boardContents.do")) {
 			
+			String bidx = request.getParameter("bidx");
+			BoardDao bd = new BoardDao();
+			int bidx_int = Integer.parseInt(bidx);
+			BoardVo bv = bd.boardSelectOne(bidx_int);
+			
+			request.setAttribute("bv", bv);
+			
 			String path = "/board/boardContents.jsp";
 			RequestDispatcher rd = request.getRequestDispatcher(path);
 			rd.forward(request, response);

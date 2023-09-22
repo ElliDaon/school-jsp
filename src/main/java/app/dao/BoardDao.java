@@ -6,6 +6,8 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
+import com.mysql.cj.xdevapi.PreparableStatement;
+
 import app.dbconn.DbConn;
 import app.domain.BoardVo;
 import app.domain.Criteria;
@@ -121,5 +123,36 @@ public class BoardDao {
 				}
 		
 		return exec;
+	}
+	
+	public BoardVo boardSelectOne(int bidx) {
+		BoardVo bv = null;
+		String sql = "Select * from board0803 where bidx=?";
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		//향상된 구문 클래스를 꺼낸다.
+		try {
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setInt(1, bidx);
+			rs = pstmt.executeQuery();
+			
+			if(rs.next()) {
+				//bv 생성하고 결과값 옮겨담기
+				bv = new BoardVo();
+				bv.setSubject(rs.getString("subject"));
+				bv.setContents(rs.getString("Contents"));
+				bv.setWriter(rs.getString("writer"));
+				bv.setBidx(rs.getInt("bidx"));
+				bv.setViewcnt(rs.getInt("viewcnt"));
+				bv.setOriginbidx(rs.getInt("originbidx"));
+				bv.setDepth(rs.getInt("depth"));
+				bv.setLevel_(rs.getInt("level_"));
+				
+			}
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return bv;
 	}
 }
