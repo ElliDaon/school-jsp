@@ -138,7 +138,18 @@ public class BoardController extends HttpServlet {
 			}
 			
 		}else if (loaction.equals("boardDelete.do")) {
+			
+			String bidx = request.getParameter("bidx");
+			int bidx_int = Integer.parseInt(bidx);
+			
+			BoardDao bd = new BoardDao();
+			BoardVo bv = bd.boardSelectOne(bidx_int);
+
+			request.setAttribute("bv", bv);
+			
 			String path = "/board/boardDelete.jsp";
+			//화면용도의 주소는 포워드로 토스해서 해당 찐주소로 보낸다.
+			//같은 지역이므로 공유해서 꺼내쓸 수 있다.
 			RequestDispatcher rd = request.getRequestDispatcher(path);
 			rd.forward(request, response);
 

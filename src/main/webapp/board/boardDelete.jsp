@@ -1,5 +1,10 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
+<%@ page import="app.domain.BoardVo"%>
+<%
+BoardVo bv = (BoardVo) request.getAttribute("bv");
+%>
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -41,6 +46,7 @@ nav {
 	color: yellow;
 	text-decoration: none;
 }
+
 table {
 	margin: auto;
 	border-spacing: 10px;
@@ -62,6 +68,21 @@ input {
 	background-color: rgb(233, 233, 233);
 }
 </style>
+<script type="text/javascript">
+
+function check(){
+	
+	if(document.frm.pwd.value==""){
+		alert("비밀번호를 입력해주세요");
+		document.frm.pwd.focus();
+		return; 
+	}
+	
+	return;
+}
+
+
+</script>
 </head>
 <body>
 	<nav id="menubar">
@@ -75,24 +96,27 @@ input {
 	</nav>
 	<h3>게시글 삭제</h3>
 	<hr>
-	
-	<div id="contents">
-		<table>
-			<tr>
-				<th>제목: 안녕하세요</th>
-			</tr>
-			<tr>
-				<th><div id="name_title">비밀번호 입력</div></th>
-			</tr>
-			<tr>
-				<th><input type="password" name="boardPwd" value=""></th>
-			</tr>
-		</table>
-		
-		<th></th>
-		<td style="text-align:right;">
-		<button type="button" >삭제하기</button>
-		</td>
-	</div>
+
+	<form name="frm">
+	<input type="hidden" name = "bidx" value="<%=bv.getBidx() %>">
+		<div id="contents">
+			<table>
+				<tr>
+					<th>제목: <%=bv.getSubject()%></th>
+				</tr>
+				<tr>
+					<th><div id="name_title">비밀번호 입력</div></th>
+				</tr>
+				<tr>
+					<th><input type="password" name="pwd" value=""></th>
+				</tr>
+			</table>
+
+			<th></th>
+			<td style="text-align: right;">
+				<button type="button" onclick="check();">삭제하기</button>
+			</td>
+		</div>
+	</form>
 </body>
 </html>

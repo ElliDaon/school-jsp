@@ -144,7 +144,7 @@ td #userName{
 		<th></th>
 		<td style="text-align:right;">
 		<button type="button" onclick="location.href='<%=request.getContextPath()%>/board/boardModify.do?bidx=<%=bv.getBidx()%>'">수정</button>
-		<button type="button" onclick="location.href='<%=request.getContextPath()%>/board/boardDelete.do'">삭제</button>
+		<button type="button" onclick="location.href='<%=request.getContextPath()%>/board/boardDelete.do?bidx=<%=bv.getBidx()%>'">삭제</button>
 		<button type="button" onclick="location.href='<%=request.getContextPath()%>/board/boardReply.do'">답글</button>
 		<button type="button" onclick="location.href='<%=request.getContextPath()%>/board/boardList.do'">목록</button>
 		</td>
