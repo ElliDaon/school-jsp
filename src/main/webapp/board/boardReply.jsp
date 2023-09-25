@@ -118,10 +118,6 @@ function check(){
 		<div>
 			닉네임: <input type="text" name = "writer" placeholder="닉네임" value="" >
 		</div>
-		<div class="filebox">
-			<label for="filename">
-			<input type="file" id="filename" name = "filename" value=""  ></label>
-		</div>
 		<div>
 			비밀번호: <input type="password" name = "pwd" placeholder="비밀번호" value="" >
 		</div>

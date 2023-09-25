@@ -141,7 +141,16 @@ strong{
 			<% for(BoardVo bv : list ) {%>
 			<tr>
 			<td><%=bv.getBidx() %></td>
-			<td><a href="<%=request.getContextPath()%>/board/boardContents.do?bidx=<%=bv.getBidx() %>"><%=bv.getSubject() %></a></td>
+			<td style="text-align:left">
+			<% for(int i=1; i<=bv.getLevel_(); i++){
+				out.print("&nbsp;&nbsp;&nbsp;");
+				if(i == bv.getLevel_()){
+					out.print("└");
+				}
+			}
+			%>
+			<a href="<%=request.getContextPath()%>/board/boardContents.do?bidx=<%=bv.getBidx() %>">
+			<%=bv.getSubject() %></a></td>
 			<td><%=bv.getWriter() %></td>
 			<td><%=bv.getViewcnt() %></td>
 			<td><%=bv.getWriteday() %></td>

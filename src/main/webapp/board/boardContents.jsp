@@ -53,7 +53,6 @@ div {
 }
 table {
 	border-collapse:collapse;
-
 }
 th {
 	border: 5px solid #f6f4f3;
@@ -148,7 +147,20 @@ td #userName{
 		<button type="button" onclick="location.href='<%=request.getContextPath()%>/board/boardReply.do?bidx=<%=bv.getBidx()%>&originbidx=<%=bv.getOriginbidx()%>&depth=<%=bv.getDepth()%>&level_=<%=bv.getLevel_()%>'">답글</button>
 		<button type="button" onclick="location.href='<%=request.getContextPath()%>/board/boardList.do'">목록</button>
 		</td>
+	<br><br>
 	</div>
-
+	<div>
+	<table style="width:600px;">
+	<tr>
+	<td>작성자</td>
+	<td><input type="text" name = "cwriter" size="20"></td>
+	<td rowspan=2><input type="button" name = "btn" value = "저장" onclick="check();"></td>
+	</tr>
+	<tr>
+	<td>내용</td>
+	<td><textarea name = "ccontents" cols="50" rows="3" placeholder="내용을 입력하세요"></textarea></td>
+	</tr>
+	</table>
+	</div>
 </body>
 </html>

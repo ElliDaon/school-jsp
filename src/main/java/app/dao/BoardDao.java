@@ -34,8 +34,8 @@ public class BoardDao {
 			str = " and " + scri.getSearchType() + " like concat('%','" + scri.getKeyword() + "','%') ";
 		}
 
-		String sql = "select bidx, subject, writer, viewcnt, date_format(writeday,\"%Y-%m-%d\") as writeday "
-				+ "from board0803 where delyn='N' " + str + "order by originbidx desc, level_ asc, depth asc limit ?,?";
+		String sql = "select bidx, subject, writer, viewcnt, date_format(writeday,\"%Y-%m-%d\") as writeday, level_ "
+				+ "from board0803 where delyn='N' " + str + "order by originbidx desc, depth asc limit ?,?";
 		try {
 			// ±¸¹®(Äõ¸®)°´Ã¼
 			pstmt = conn.prepareStatement(sql);
@@ -52,6 +52,7 @@ public class BoardDao {
 				bv.setWriter(rs.getString("writer"));
 				bv.setViewcnt(rs.getInt("viewcnt"));
 				bv.setWriteday(rs.getString("writeday"));
+				bv.setLevel_(rs.getInt("level_"));
 				alist.add(bv);
 			}
 		} catch (Exception e) {
@@ -239,7 +240,6 @@ public class BoardDao {
 			pstmt.setInt(7, bv.getMidx());
 			pstmt.setString(8, bv.getPwd());
 			pstmt.setString(9, bv.getIp());
-			//pstmt.setString(8, bv.getFilename());
 			value = pstmt.executeUpdate();
 			conn.commit();
 
