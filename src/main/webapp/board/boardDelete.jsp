@@ -72,12 +72,17 @@ input {
 
 function check(){
 	
-	if(document.frm.pwd.value==""){
+	var fm = document.frm;
+	
+	if(fm.pwd.value==""){
 		alert("비밀번호를 입력해주세요");
-		document.frm.pwd.focus();
+		fm.pwd.focus();
 		return; 
 	}
 	
+	fm.action="<%=request.getContextPath()%>/board/boardDeleteAction.do";
+	fm.method="post";
+	fm.submit();
 	return;
 }
 

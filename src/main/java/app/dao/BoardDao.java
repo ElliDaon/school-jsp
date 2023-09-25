@@ -195,4 +195,23 @@ public class BoardDao {
 
 		return exec;
 	}
+	
+	public int boardDelete(int bidx, String pwd) {
+		int value = 0;
+		
+		String sql = "UPDATE board0803 set\r\n" 
+				+ "delyn = 'Y',\r\n" 
+				+ "modifyday= now()\r\n" 
+				+ "where bidx = ? and pwd = ?";
+		try {
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setInt(1, bidx);
+			pstmt.setString(2, pwd);
+			value = pstmt.executeUpdate();
+			//수정이 되면 1이 리턴된다.
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return value;
+	}
 }

@@ -153,7 +153,34 @@ public class BoardController extends HttpServlet {
 			RequestDispatcher rd = request.getRequestDispatcher(path);
 			rd.forward(request, response);
 
-		} else if (loaction.equals("boardWriteAction.do")) {
+		}else if(loaction.equals("boardDeleteAction.do")) {
+			
+			String bidx = request.getParameter("bidx");
+			int bidx_int = Integer.parseInt(bidx);
+			String pwd = request.getParameter("pwd");
+			
+			//처리하는 메소드를 만들어야 한다.
+			int value = 0;
+			
+			BoardVo bv = new BoardVo();
+			bv.setBidx(Integer.parseInt(bidx));
+			bv.setPwd(pwd);
+
+			BoardDao bd = new BoardDao();
+			value = bd.boardDelete(bidx_int,pwd);
+			
+			
+			//value 값은 처리가 되면 1이 되고 아니면 0이 나온다.
+			if(value != 0) {
+				
+				String path = request.getContextPath() + "/board/boardList.do";
+				response.sendRedirect(path);
+			}else {
+				String path = request.getContextPath() + "/board/boardDelete.do?bidx="+bidx;
+				response.sendRedirect(path);
+			}
+			
+		}else if (loaction.equals("boardWriteAction.do")) {
 
 			String savePath = "D:\\MDO\\mvcstudy0803\\src\\main\\webapp\\images";
 			int sizeLimit = 15 * 1024 * 1024; // 15메가바이트 제한
