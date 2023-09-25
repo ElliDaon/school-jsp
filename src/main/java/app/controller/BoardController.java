@@ -170,7 +170,6 @@ public class BoardController extends HttpServlet {
 			BoardDao bd = new BoardDao();
 			value = bd.boardDelete(bidx_int,pwd);
 			
-			
 			//value 값은 처리가 되면 1이 되고 아니면 0이 나온다.
 			if(value != 0) {
 				
