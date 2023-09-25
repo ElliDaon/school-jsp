@@ -162,6 +162,7 @@ public class BoardController extends HttpServlet {
 			//처리하는 메소드를 만들어야 한다.
 			int value = 0;
 			
+			
 			BoardVo bv = new BoardVo();
 			bv.setBidx(Integer.parseInt(bidx));
 			bv.setPwd(pwd);
