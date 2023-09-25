@@ -172,6 +172,7 @@ public class BoardController extends HttpServlet {
 			String contents = request.getParameter("contents");
 			String writer = request.getParameter("writer");
 			String pwd = request.getParameter("pwd");
+			String ip =InetAddress.getLocalHost().getHostAddress();
 			
 			HttpSession session = request.getSession();
 			int midx = 0;
@@ -188,15 +189,17 @@ public class BoardController extends HttpServlet {
 			bv.setWriter(writer);
 			bv.setPwd(pwd);
 			bv.setMidx(midx);
+			bv.setIp(ip);
 			
+			int value = 0;
 			BoardDao bd = new BoardDao();
-			int value = bd.boardReply(bv);
+			value = bd.boardReply(bv);
 
 			if (value != 0) {
 				String path = request.getContextPath() + "/board/boardList.do";
 				response.sendRedirect(path);
 			}else {
-				String path = request.getContextPath() + "/board/boardReply.do";
+				String path = request.getContextPath() + "/board/boardReply.do?bidx="+bidx+"&originbidx="+originbidx+"&depth="+depth+"&level_="+level_;
 				response.sendRedirect(path);
 			}
 			

@@ -218,12 +218,18 @@ public class BoardDao {
 	public int boardReply(BoardVo bv) {
 		int value = 0;
 		
-		String sql = "INSERT INTO board0803(originbidx, depth, level_, SUBJECT, contents, writer, midx, pwd)\r\n"
-				+ "values(?, ?,?,?, ?, ?, ?, ?)";
+		String sql = "update board0803 set depth = depth+1 where depth > ?";
+		String sql2 = "INSERT INTO board0803(originbidx, depth, level_, SUBJECT, contents, writer, midx, pwd,ip)\r\n"
+				+ "values(?, ?,?,?, ?, ?, ?, ?,?)";
 		
 		
 		try {
+			conn.setAutoCommit(false);
 			pstmt = conn.prepareStatement(sql);
+			pstmt.setInt(1, bv.getDepth());
+			value = pstmt.executeUpdate();
+			
+			pstmt = conn.prepareStatement(sql2);
 			pstmt.setInt(1,bv.getOriginbidx());
 			pstmt.setInt(2, bv.getDepth()+1);
 			pstmt.setInt(3, bv.getLevel_()+1);
@@ -232,14 +238,19 @@ public class BoardDao {
 			pstmt.setString(6, bv.getWriter());
 			pstmt.setInt(7, bv.getMidx());
 			pstmt.setString(8, bv.getPwd());
+			pstmt.setString(9, bv.getIp());
 			//pstmt.setString(8, bv.getFilename());
-
 			value = pstmt.executeUpdate();
+			conn.commit();
 
 
 
 		} catch (Exception e) {
-			
+			try {
+				conn.rollback();
+			} catch (SQLException e1) {
+				e1.printStackTrace();
+			}
 			e.printStackTrace();
 		}
 

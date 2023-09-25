@@ -1,5 +1,11 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%
+	if(session.getAttribute("midx")==null){
+		out.println("<script>alert('로그인하셔야합니다!');location.href='"+
+	request.getContextPath()+"/member/memberLogin.do'</script>");
+}
+%>
 <%@ page import="app.domain.BoardVo" %>
 <%
 BoardVo bv = (BoardVo)request.getAttribute("bv");
@@ -68,7 +74,7 @@ function check(){
 		fm.writer.focus();
 		return;
 	} else if(fm.pwd.value ==""){
-		alert("닉네임을 입력하세요");
+		alert("비밀번호를 입력하세요");
 		fm.pwd.focus();
 		return;
 	}
