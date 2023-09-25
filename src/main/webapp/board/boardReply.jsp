@@ -1,5 +1,9 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ page import="app.domain.BoardVo" %>
+<%
+BoardVo bv = (BoardVo)request.getAttribute("bv");
+%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -45,37 +49,6 @@ nav {
 	text-align: center;
 }
 
-.filebox .upload-name {
-	display: inline-block;
-	height: 20px;
-	padding: 0 10px;
-	vertical-align: middle;
-	border: 1px solid #dddddd;
-	width: 200px;
-	color: #999999;
-}
-
-.filebox label {
-	display: inline-block;
-	padding: 5px 5px;
-	color: #fff;
-	vertical-align: middle;
-	background-color: #999999;
-	cursor: pointer;
-	height: 20px;
-	margin-left: 10px;
-	font-size: 13px;
-	margin: 5px;
-}
-
-.filebox input[type="file"] {
-	position: absolute;
-	width: 0;
-	height: 0;
-	padding: 0;
-	overflow: hidden;
-	border: 0;
-}
 </style>
 <script>
 function check(){
@@ -100,7 +73,7 @@ function check(){
 		return;
 	}
 	
-	fm.action = "<%=request.getContextPath()%>/board/boardWriteAction.do";  //처리하기위해 이동하는 주소
+	fm.action = "<%=request.getContextPath()%>/board/boardReplyAction.do";  //처리하기위해 이동하는 주소
 	fm.method = "post";  //이동하는 방식  get 노출시킴 post 감추어서 전달
 	fm.submit();
 	
@@ -120,9 +93,15 @@ function check(){
 	<h3>답글 작성</h3>
 	<hr>
 	<form name="frm" action="" method="" value="">
+	
+	<input type="hidden" name = "bidx" value = "<%=bv.getBidx() %>">
+	<input type="hidden" name = "originbidx" value = "<%=bv.getOriginbidx() %>">
+	<input type="hidden" name = "depth" value = "<%=bv.getDepth() %>">
+	<input type="hidden" name = "level_" value = "<%=bv.getLevel_() %>">
+	
 	<div id="content_page">
 		<div id="in_title">
-			<textarea name="subject" id="utitle" rows="1" cols="50"
+			<textarea name="subject" id="subject" rows="1" cols="50"
 				placeholder="제목" maxlength="100" value="" required></textarea>
 		</div>
 
@@ -134,8 +113,8 @@ function check(){
 			닉네임: <input type="text" name = "writer" placeholder="닉네임" value="" >
 		</div>
 		<div class="filebox">
-			<label for="file">파일찾기</label> <input type="file" id="file">
-			<input class="upload-name" name = "file" value="첨부파일" placeholder="첨부파일" value="">
+			<label for="filename">
+			<input type="file" id="filename" name = "filename" value=""  ></label>
 		</div>
 		<div>
 			비밀번호: <input type="password" name = "pwd" placeholder="비밀번호" value="" >

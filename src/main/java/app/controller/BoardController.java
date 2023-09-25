@@ -137,6 +137,69 @@ public class BoardController extends HttpServlet {
 
 			}
 			
+		}else if(loaction.equals("boardReply.do")) {
+			
+			
+			String bidx = request.getParameter("bidx");
+			int bidx_int = Integer.parseInt(bidx);
+			String originbidx = request.getParameter("originbidx");
+			int originbidx_int = Integer.parseInt(originbidx);
+			String depth = request.getParameter("depth");
+			int depth_int = Integer.parseInt(depth);
+			String level_ = request.getParameter("level_");
+			int level_int = Integer.parseInt(level_);
+			
+			BoardVo bv = new BoardVo();
+			bv.setBidx(bidx_int);
+			bv.setOriginbidx(originbidx_int);
+			bv.setDepth(depth_int);
+			bv.setLevel_(level_int);
+			
+			request.setAttribute("bv", bv);
+
+			String path = "/board/boardReply.jsp";
+			RequestDispatcher rd = request.getRequestDispatcher(path);
+			rd.forward(request, response);
+			
+		}else if(loaction.equals("boardReplyAction.do")){
+			
+			String bidx = request.getParameter("bidx");
+			String originbidx = request.getParameter("originbidx");
+			String depth = request.getParameter("depth");
+			String level_ = request.getParameter("level_");
+			
+			String subject = request.getParameter("subject");
+			String contents = request.getParameter("contents");
+			String writer = request.getParameter("writer");
+			String pwd = request.getParameter("pwd");
+			
+			HttpSession session = request.getSession();
+			int midx = 0;
+			midx = (int) session.getAttribute("midx");
+			
+			BoardVo bv = new BoardVo();
+			//bv.setBidx(Integer.parseInt(bidx));
+			bv.setOriginbidx(Integer.parseInt(originbidx));
+			bv.setDepth(Integer.parseInt(depth));
+			bv.setLevel_(Integer.parseInt(level_));
+			
+			bv.setSubject(subject);
+			bv.setContents(contents);
+			bv.setWriter(writer);
+			bv.setPwd(pwd);
+			bv.setMidx(midx);
+			
+			BoardDao bd = new BoardDao();
+			int value = bd.boardReply(bv);
+
+			if (value != 0) {
+				String path = request.getContextPath() + "/board/boardList.do";
+				response.sendRedirect(path);
+			}else {
+				String path = request.getContextPath() + "/board/boardReply.do";
+				response.sendRedirect(path);
+			}
+			
 		}else if (loaction.equals("boardDelete.do")) {
 			
 			String bidx = request.getParameter("bidx");
@@ -162,10 +225,6 @@ public class BoardController extends HttpServlet {
 			//처리하는 메소드를 만들어야 한다.
 			int value = 0;
 			
-			BoardVo bv = new BoardVo();
-			bv.setBidx(Integer.parseInt(bidx));
-			bv.setPwd(pwd);
-
 			BoardDao bd = new BoardDao();
 			value = bd.boardDelete(bidx_int,pwd);
 			

@@ -214,4 +214,36 @@ public class BoardDao {
 		}
 		return value;
 	}
+	
+	public int boardReply(BoardVo bv) {
+		int value = 0;
+		
+		String sql = "INSERT INTO board0803(originbidx, depth, level_, SUBJECT, contents, writer, midx, pwd)\r\n"
+				+ "values(?, ?,?,?, ?, ?, ?, ?)";
+		
+		
+		try {
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setInt(1,bv.getOriginbidx());
+			pstmt.setInt(2, bv.getDepth()+1);
+			pstmt.setInt(3, bv.getLevel_()+1);
+			pstmt.setString(4, bv.getSubject());
+			pstmt.setString(5, bv.getContents());
+			pstmt.setString(6, bv.getWriter());
+			pstmt.setInt(7, bv.getMidx());
+			pstmt.setString(8, bv.getPwd());
+			//pstmt.setString(8, bv.getFilename());
+
+			value = pstmt.executeUpdate();
+
+
+
+		} catch (Exception e) {
+			
+			e.printStackTrace();
+		}
+
+		
+		return value;
+	}
 }
