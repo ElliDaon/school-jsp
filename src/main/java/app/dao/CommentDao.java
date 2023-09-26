@@ -3,6 +3,7 @@ package app.dao;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
 
 import app.dbconn.DbConn;
@@ -47,5 +48,49 @@ public class CommentDao {
 			e.printStackTrace();
 		}
 		return alist;
+	}
+	
+	public int commentInsert(CommentVo cv){
+		int exec = 0;
+
+		String sql = "insert into comment0803(cwriter, ccontents, midx, bidx)"+
+				" values(?,?,?,?)";
+		try{
+		pstmt = conn.prepareStatement(sql);
+		pstmt.setString(1,cv.getCwriter());
+		pstmt.setString(2,cv.getCcontents());
+		pstmt.setInt(3,cv.getMidx());
+		pstmt.setInt(4,cv.getBidx());
+		
+		exec = pstmt.executeUpdate();
+		} catch(Exception e){
+			e.printStackTrace();
+		} finally{
+			try {
+				pstmt.close();
+				conn.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+		
+		return exec;
+	}
+	
+	public int commentDelete(int cidx) {
+		int value = 0;
+		
+		String sql = "UPDATE comment0803 set\r\n" 
+				+ "delyn = 'Y'\r\n"  
+				+ "where cidx = ? ";
+		try {
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setInt(1, cidx);
+			value = pstmt.executeUpdate();
+			//수정이 되면 1이 리턴된다.
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return value;
 	}
 }

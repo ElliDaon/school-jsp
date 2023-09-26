@@ -4,13 +4,16 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
 
+import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import app.dao.BoardDao;
 import app.dao.CommentDao;
+import app.domain.BoardVo;
 import app.domain.CommentVo;
 
 @WebServlet("/CommentController")
@@ -74,9 +77,22 @@ public class CommentController extends HttpServlet {
 
 			int value = 0;
 			// 댓글입력 메소드 만든다
-
+			CommentDao cd = new CommentDao();
+			value = cd.commentInsert(cv);
+			
 			String str = "{\"value\":\"" + value + "\"}";
 
+			PrintWriter out = response.getWriter();
+			out.println(str);
+		} else if(location.equals("commentDelete.do")) {
+			
+			String cidx = request.getParameter("cidx");
+			int cidx_int = Integer.parseInt(cidx);
+			
+			CommentDao cd = new CommentDao();
+			int value = cd.commentDelete(cidx_int);
+			
+			String str = "{\"value\":\"" + value + "\"}";
 			PrintWriter out = response.getWriter();
 			out.println(str);
 		}

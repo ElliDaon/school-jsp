@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ page import="app.domain.BoardVo"%>
+<%@ page import="app.domain.CommentVo"%>
 <%
 	if(session.getAttribute("midx")==null){
 		out.println("<script>alert('로그인하셔야합니다!');location.href='"+
@@ -8,12 +9,14 @@
 	}
 
 	BoardVo bv = (BoardVo) request.getAttribute("bv");
+	CommentVo cv = (CommentVo) request.getAttribute("cv");
 %>
 <!DOCTYPE html>
 <html>
 <head>
 <meta charset="utf-8">
 <title>Insert title here</title>
+
 <link href="./css/board.css" type="text/css" rel="stylesheet">
 <!-- 1.cdn주소걸고 (라이브러리) -->
 <script src="https://code.jquery.com/jquery-1.12.4.min.js"></script>
@@ -24,7 +27,7 @@ $(document).ready(function(){
 	$.boardCommentList();
 	
 	$("#save").on("click",function(){
-		alert("클릭");
+		//alert("클릭");
 		let cwriter = $("#cwriter").val();
 		let ccontents = $("#ccontents").val();
 		let bidx = <%=bv.getBidx()%>;
@@ -43,12 +46,24 @@ $(document).ready(function(){
 			cache : false,
 			success : function(data){
 				alert("통신성공");
+				//alert(data.value);
+				//if(data.value==1){
+				//	alert("등록성공");
+				//}
+				$.boardCommentList();
+				$("#cwriter").val("");
+				$("#ccontents").val("");
 			},
 			error : function(){
 				alert("통신오류 실패");
 			}		
 		});
 	});
+	
+	$("#btn2").on("click",function(){
+		alert("클릭");
+		
+	}); 
 });
 
 
@@ -70,17 +85,40 @@ $.boardCommentList= function(){
 	
 }
 
+
 function commentList(data){
 	
 	var str = "";
-	str = "<tr><th>번호</th><th>작성자</th><th>내용</th><th>등록일</th></tr>";
+	str = "<tr><th>번호</th><th>작성자</th><th>내용</th><th>등록일</th><th>삭제</th></tr>";
 	$(data).each(function(){
 		str = str + "<tr><td>"+this.cidx+"</td><td>"+this.cwriter+"</td><td>"
-			  +this.ccontents+"</td><td>"+this.cwriteday+"</td></tr>";
+			  +this.ccontents+"</td><td>"+this.cwriteday+"</td>"
+			  +"<td><input type='button' name='btn2' onclick='cdel("+this.cidx+")' value='X'>"
+			  +" </td></tr>";
 		
 	});
 	$("#tbl").html("<table id='ccontents'>"+str+"</table>");
 	return;
+}
+
+function cdel(cidx){
+	//alert("삭제");
+	var cidx = cidx;
+	$.ajax({
+		type : "get",
+		url : "<%=request.getContextPath()%>/comment/commentDelete.do?cidx="+cidx,
+		dataType : "json",
+		cache : false,
+		success : function(){
+			alert("삭제 성공");
+			$.boardCommentList();
+		},
+		error : function(request, status, error){
+
+			alert("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
+
+		}	
+	});
 }
 
 </script>
