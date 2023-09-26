@@ -2,7 +2,12 @@
 	pageEncoding="UTF-8"%>
 <%@ page import="app.domain.BoardVo"%>
 <%
-BoardVo bv = (BoardVo) request.getAttribute("bv");
+	if(session.getAttribute("midx")==null){
+		out.println("<script>alert('로그인하셔야합니다!');location.href='"+
+	request.getContextPath()+"/member/memberLogin.do'</script>");
+	}
+
+	BoardVo bv = (BoardVo) request.getAttribute("bv");
 %>
 <!DOCTYPE html>
 <html>
@@ -18,7 +23,32 @@ $(document).ready(function(){
 	
 	$.boardCommentList();
 	
-	
+	$("#save").on("click",function(){
+		alert("클릭");
+		let cwriter = $("#cwriter").val();
+		let ccontents = $("#ccontents").val();
+		let bidx = <%=bv.getBidx()%>;
+		let midx = <%=session.getAttribute("midx")%>;
+		
+		$.ajax({
+			type : "post",
+			url : "<%=request.getContextPath()%>/comment/commentWrite.do",
+			dataType : "json",
+			data : {
+					"bidx" : bidx,
+					"midx" : midx,
+					"cwriter" : cwriter,
+					"ccontents" : ccontents
+			},
+			cache : false,
+			success : function(data){
+				alert("통신성공");
+			},
+			error : function(){
+				alert("통신오류 실패");
+			}		
+		});
+	});
 });
 
 
@@ -224,13 +254,13 @@ td #userName {
 		<table style="width: 600px;">
 			<tr>
 				<td>작성자</td>
-				<td><input type="text" name="cwriter" size="20"></td>
+				<td><input type="text" id="cwriter" name="cwriter" size="20"></td>
 				<td rowspan=2><input type="button" name="btn" value="저장"
-					onclick="check();"></td>
+					id="save"></td>
 			</tr>
 			<tr>
 				<td>내용</td>
-				<td><textarea name="ccontents" cols="50" rows="3"
+				<td><textarea id="ccontents" name="ccontents" cols="50" rows="3"
 						placeholder="내용을 입력하세요"></textarea></td>
 			</tr>
 		</table>

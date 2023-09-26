@@ -22,11 +22,12 @@ public class CommentController extends HttpServlet {
 	public CommentController(String location) {
 		this.location = location;
 	}
-	
-	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-			
-		if(location.equals("commentList.do")) {
-			
+
+	protected void doGet(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
+
+		if (location.equals("commentList.do")) {
+
 			CommentDao cd = new CommentDao();
 			ArrayList<CommentVo> list = cd.CommentSelectAll();
 			int listCnt = list.size();
@@ -35,34 +36,55 @@ public class CommentController extends HttpServlet {
 			String ccontents = "";
 			String cwriteday = "";
 			String str = "";
-			
-			for(int i=0; i<listCnt; i++) {
+
+			for (int i = 0; i < listCnt; i++) {
 				cidx = list.get(i).getCidx();
 				cwriter = list.get(i).getCwriter();
 				ccontents = list.get(i).getCcontents();
 				cwriteday = list.get(i).getCwriteday();
-				
+
 				String comma = "";
-				if(i == listCnt-1) {
+				if (i == listCnt - 1) {
 					comma = "";
-				}else {
+				} else {
 					comma = ",";
 				}
-				str = str + "{\"cidx\":\""+cidx+"\",\"cwriter\":\""+cwriter
-						+"\",\"ccontents\":\""+ccontents+"\",\"cwriteday\":\""+cwriteday+"\"}"+comma;
-				
+				str = str + "{\"cidx\":\"" + cidx + "\",\"cwriter\":\"" + cwriter + "\",\"ccontents\":\"" + ccontents
+						+ "\",\"cwriteday\":\"" + cwriteday + "\"}" + comma;
+
 			}
-			
-			//json파일 형식의 여러개의 데이터를 담는다
-			//String am = "[{\"nm\":\"홍길동\"},{\"nm\":\"이순신\"}]";
-			
+
+			// json파일 형식의 여러개의 데이터를 담는다
+			// String am = "[{\"nm\":\"홍길동\"},{\"nm\":\"이순신\"}]";
+
 			PrintWriter out = response.getWriter();
-			out.println("["+str+"]");
+			out.println("[" + str + "]");
+		} else if (location.equals("commentWrite.do")) {
+
+			String bidx = request.getParameter("bidx");
+			String midx = request.getParameter("midx");
+			String cwriter = request.getParameter("cwriter");
+			String ccontents = request.getParameter("ccontents");
+
+			CommentVo cv = new CommentVo();
+			cv.setBidx(Integer.parseInt(bidx));
+			cv.setMidx(Integer.parseInt(midx));
+			cv.setCwriter(cwriter);
+			cv.setCcontents(ccontents);
+
+			int value = 0;
+			// 댓글입력 메소드 만든다
+
+			String str = "{\"value\":\"" + value + "\"}";
+
+			PrintWriter out = response.getWriter();
+			out.println(str);
 		}
-		
+
 	}
 
-	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+	protected void doPost(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
 		doGet(request, response);
 	}
 
