@@ -9,7 +9,53 @@ BoardVo bv = (BoardVo) request.getAttribute("bv");
 <head>
 <meta charset="utf-8">
 <title>Insert title here</title>
-<style>
+<link href="./css/board.css" type="text/css" rel="stylesheet">
+<!-- 1.cdn주소걸고 (라이브러리) -->
+<script src="https://code.jquery.com/jquery-1.12.4.min.js"></script>
+<script type="text/javascript">
+//자동실행영역
+$(document).ready(function(){
+	
+	$.boardCommentList();
+	
+	
+});
+
+
+$.boardCommentList= function(){
+	
+	$.ajax({
+		type : "get",
+		url : "<%=request.getContextPath()%>/comment/commentList.do",
+		dataType : "json",
+		cache : false,
+		success : function(data){
+			//alert("통신성공");
+			commentList(data);
+		},
+		error : function(){
+			alert("통신오류 실패");
+		}		
+	});
+	
+}
+
+function commentList(data){
+	
+	var str = "";
+	str = "<tr><th>번호</th><th>작성자</th><th>내용</th><th>등록일</th></tr>";
+	$(data).each(function(){
+		str = str + "<tr><td>"+this.cidx+"</td><td>"+this.cwriter+"</td><td>"
+			  +this.ccontents+"</td><td>"+this.cwriteday+"</td></tr>";
+		
+	});
+	$("#tbl").html("<table id='ccontents'>"+str+"</table>");
+	return;
+}
+
+</script>
+
+<style type="text/css">
 body {
 	background: #f6f4f3;
 	text-align: center;
@@ -188,33 +234,8 @@ td #userName {
 						placeholder="내용을 입력하세요"></textarea></td>
 			</tr>
 		</table>
-		<hr>
-		<table id="ccontents">
-			<tr>
-				<th width=50>번호</th>
-				<th width=100>작성자</th>
-				<th width=200>내용</th>
-				<th width=100>입력일</th>
-			</tr>
-			<tr>
-				<td>1</td>
-				<td>홍길동</td>
-				<td>반갑습니다</td>
-				<td>2023-09-25</td>
-			</tr>
-			<tr>
-				<td>2</td>
-				<td>이순신</td>
-				<td>ㅎㅇㅎㅇ</td>
-				<td>2023-09-25</td>
-			</tr>
-			<tr>
-				<td>3</td>
-				<td>가나다</td>
-				<td>ㅋㅋㅋㅋㅋㅋㅋㅋ</td>
-				<td>2023-09-25</td>
-			</tr>
-		</table>
 	</div>
+		<div id="tbl">
+		</div>
 </body>
 </html>
