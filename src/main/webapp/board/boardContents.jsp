@@ -90,11 +90,20 @@ function commentList(data){
 	
 	var str = "";
 	str = "<tr><th>번호</th><th>작성자</th><th>내용</th><th>등록일</th><th>삭제</th></tr>";
+	
+	var delbtn = "";
+	
+	var loginMidx = <%=session.getAttribute("midx")%>;
+	
 	$(data).each(function(){
+		if(loginMidx==this.midx){
+			delbtn = "<input type='button' name='btn2' onclick='cdel("+this.cidx+")' value='X'>";
+		}else{
+			delbtn="";
+		}
 		str = str + "<tr><td>"+this.cidx+"</td><td>"+this.cwriter+"</td><td>"
-			  +this.ccontents+"</td><td>"+this.cwriteday+"</td>"
-			  +"<td><input type='button' name='btn2' onclick='cdel("+this.cidx+")' value='X'>"
-			  +" </td></tr>";
+			  +this.ccontents+"</td><td>"+this.cwriteday+"</td><td>"+delbtn
+			  +"</td></tr>";
 		
 	});
 	$("#tbl").html("<table id='ccontents'>"+str+"</table>");
@@ -119,6 +128,7 @@ function cdel(cidx){
 
 		}	
 	});
+	return;
 }
 
 </script>

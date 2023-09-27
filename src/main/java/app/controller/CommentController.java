@@ -39,12 +39,14 @@ public class CommentController extends HttpServlet {
 			String ccontents = "";
 			String cwriteday = "";
 			String str = "";
+			int midx = 0;
 
 			for (int i = 0; i < listCnt; i++) {
 				cidx = list.get(i).getCidx();
 				cwriter = list.get(i).getCwriter();
 				ccontents = list.get(i).getCcontents();
 				cwriteday = list.get(i).getCwriteday();
+				midx = list.get(i).getMidx();
 
 				String comma = "";
 				if (i == listCnt - 1) {
@@ -53,7 +55,7 @@ public class CommentController extends HttpServlet {
 					comma = ",";
 				}
 				str = str + "{\"cidx\":\"" + cidx + "\",\"cwriter\":\"" + cwriter + "\",\"ccontents\":\"" + ccontents
-						+ "\",\"cwriteday\":\"" + cwriteday + "\"}" + comma;
+						+ "\",\"cwriteday\":\"" + cwriteday + "\",\"midx\":\"" + midx + "\"}" + comma;
 
 			}
 
@@ -88,9 +90,10 @@ public class CommentController extends HttpServlet {
 			
 			String cidx = request.getParameter("cidx");
 			int cidx_int = Integer.parseInt(cidx);
+			int value = 0;
 			
 			CommentDao cd = new CommentDao();
-			int value = cd.commentDelete(cidx_int);
+			value = cd.commentDelete(cidx_int);
 			
 			String str = "{\"value\":\"" + value + "\"}";
 			PrintWriter out = response.getWriter();
