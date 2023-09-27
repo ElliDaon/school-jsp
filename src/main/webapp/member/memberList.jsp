@@ -2,9 +2,10 @@
     pageEncoding="UTF-8"%>
 <%@ page import="java.util.*" %>
 <%@ page import="app.domain.*" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <% 
 //포워드는 공유속성때문에 념겨받을 수 있다.
-ArrayList<MemberVo> list = (ArrayList<MemberVo>)request.getAttribute("list");
+//ArrayList<MemberVo> list = (ArrayList<MemberVo>)request.getAttribute("list");
 %>
 
 <!DOCTYPE html>
@@ -89,14 +90,16 @@ tbody tr:nth-child(even){
 		</thead>
 		<tbody>
 		
-		<% for(MemberVo mv : list ) {%>
+		<%// for(MemberVo mv : list ) {%>
+		<c:forEach var="mv" items="${list}">
 		<tr>
-		<td><%=mv.getMidx() %></td>
-		<td><%=mv.getMemberId() %></td>
-		<td><%=mv.getMemberName() %></td>		
-		<td><%=mv.getWriteday() %></td>
+		<td><%//=mv.getMidx() %>${mv.midx}</td>
+		<td><%//=mv.getMemberId() %>${mv.memberId}</td>
+		<td><%//=mv.getMemberName() %>${mv.memberName}</td>		
+		<td><%//=mv.getWriteday() %>${mv.writeday}</td>
 		</tr>
-		<% } %>	
+		<% //} %>	
+		</c:forEach>
 		
 		</tbody>
 	</table>
