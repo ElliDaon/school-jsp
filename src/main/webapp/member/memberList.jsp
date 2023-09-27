@@ -90,15 +90,13 @@ tbody tr:nth-child(even){
 		</thead>
 		<tbody>
 		
-		<%// for(MemberVo mv : list ) {%>
 		<c:forEach var="mv" items="${list}">
 		<tr>
 		<td><%//=mv.getMidx() %>${mv.midx}</td>
 		<td><%//=mv.getMemberId() %>${mv.memberId}</td>
 		<td><%//=mv.getMemberName() %>${mv.memberName}</td>		
 		<td><%//=mv.getWriteday() %>${mv.writeday}</td>
-		</tr>
-		<% //} %>	
+		</tr>	
 		</c:forEach>
 		
 		</tbody>

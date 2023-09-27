@@ -2,20 +2,30 @@
 	pageEncoding="UTF-8"%>
 <%@ page import="app.domain.BoardVo"%>
 <%@ page import="app.domain.CommentVo"%>
-<%
-	if(session.getAttribute("midx")==null){
-		out.println("<script>alert('로그인하셔야합니다!');location.href='"+
-	request.getContextPath()+"/member/memberLogin.do'</script>");
-	}
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
-	BoardVo bv = (BoardVo) request.getAttribute("bv");
-	CommentVo cv = (CommentVo) request.getAttribute("cv");
+<%
+	//if(session.getAttribute("midx")==null){
+	//	out.println("<script>alert('로그인하셔야합니다!');location.href='"+
+	//request.getContextPath()+"/member/memberLogin.do'</script>");
+	//}
+
+	//BoardVo bv = (BoardVo) request.getAttribute("bv");
+	//CommentVo cv = (CommentVo) request.getAttribute("cv");
 %>
 <!DOCTYPE html>
 <html>
 <head>
 <meta charset="utf-8">
-<title>Insert title here</title>
+<title>${bv.subject}</title>
+
+<c:if test="${ sessionScope.midx == null }">
+<script>
+alert("로그인이 필요합니다");
+<c:set var="login" value="${pageContext.request.contextPath}/member/memberLogin.do" />
+location.href="${login}";
+</script>
+</c:if>
 
 <link href="./css/board.css" type="text/css" rel="stylesheet">
 <!-- 1.cdn주소걸고 (라이브러리) -->
@@ -30,12 +40,12 @@ $(document).ready(function(){
 		//alert("클릭");
 		let cwriter = $("#cwriter").val();
 		let ccontents = $("#ccontents").val();
-		let bidx = <%=bv.getBidx()%>;
-		let midx = <%=session.getAttribute("midx")%>;
+		let bidx = ${bv.bidx};
+		let midx = ${sessionScope.midx};
 		
 		$.ajax({
 			type : "post",
-			url : "<%=request.getContextPath()%>/comment/commentWrite.do",
+			url : "${pageContext.request.contextPath}/comment/commentWrite.do",
 			dataType : "json",
 			data : {
 					"bidx" : bidx,
@@ -71,7 +81,7 @@ $.boardCommentList= function(){
 	
 	$.ajax({
 		type : "get",
-		url : "<%=request.getContextPath()%>/comment/commentList.do",
+		url : "${pageContext.request.contextPath}/comment/commentList.do",
 		dataType : "json",
 		cache : false,
 		success : function(data){
@@ -93,7 +103,7 @@ function commentList(data){
 	
 	var delbtn = "";
 	
-	var loginMidx = <%=session.getAttribute("midx")%>;
+	var loginMidx = ${sessionScope.midx};
 	
 	$(data).each(function(){
 		if(loginMidx==this.midx){
@@ -115,7 +125,7 @@ function cdel(cidx){
 	var cidx = cidx;
 	$.ajax({
 		type : "get",
-		url : "<%=request.getContextPath()%>/comment/commentDelete.do?cidx="+cidx,
+		url : "${pageContext.request.contextPath}/comment/commentDelete.do?cidx="+cidx,
 		dataType : "json",
 		cache : false,
 		success : function(){
@@ -270,31 +280,31 @@ td #userName {
 		<table>
 			<tr>
 				<th><div id="name_title">제목</div></th>
-				<td><div id="title"><%=bv.getSubject()%></div></td>
+				<td><div id="title">${bv.subject}</div></td>
 				<th>조회수</th>
-				<td><%=bv.getViewcnt()%></td>
+				<td>${bv.viewcnt}</td>
 			</tr>
 			<tr>
 				<th><div id="name_contents">내용</div></th>
 				<td colspan=3 height="300px" style="vertical-align: top;"><div
-						id="contents"><%=bv.getContents()%>
+						id="contents">${bv.contents}
 					</div></td>
 			</tr>
 			<tr>
 				<th><div id="name_title">작성자</div></th>
-				<td><div id="userName"><%=bv.getWriter()%></div></td>
+				<td><div id="userName">${bv.writer}</div></td>
 			</tr>
 		</table>
 		<th></th>
 		<td style="text-align: right;">
 			<button type="button"
-				onclick="location.href='<%=request.getContextPath()%>/board/boardModify.do?bidx=<%=bv.getBidx()%>'">수정</button>
+				onclick="location.href='${pageContext.request.contextPath}/board/boardModify.do?bidx=${bv.bidx}'">수정</button>
 			<button type="button"
-				onclick="location.href='<%=request.getContextPath()%>/board/boardDelete.do?bidx=<%=bv.getBidx()%>'">삭제</button>
+				onclick="location.href='${pageContext.request.contextPath}/board/boardDelete.do?bidx=${bv.bidx}'">삭제</button>
 			<button type="button"
-				onclick="location.href='<%=request.getContextPath()%>/board/boardReply.do?bidx=<%=bv.getBidx()%>&originbidx=<%=bv.getOriginbidx()%>&depth=<%=bv.getDepth()%>&level_=<%=bv.getLevel_()%>'">답글</button>
+				onclick="location.href='${pageContext.request.contextPath}/board/boardReply.do?bidx=${bv.bidx}&originbidx=${bv.originbidx}&depth=${bv.depth}&level_=${bv.level_}'">답글</button>
 			<button type="button"
-				onclick="location.href='<%=request.getContextPath()%>/board/boardList.do'">목록</button>
+				onclick="location.href='${pageContext.request.contextPath}/board/boardList.do'">목록</button>
 		</td> <br>
 		<br>
 	</div>

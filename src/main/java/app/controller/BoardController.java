@@ -82,7 +82,7 @@ public class BoardController extends HttpServlet {
 			String bidx = request.getParameter("bidx");
 			BoardDao bd = new BoardDao();
 			int bidx_int = Integer.parseInt(bidx);
-			int exec = bd.boardCntUpdate(bidx_int);
+			bd.boardCntUpdate(bidx_int);
 			BoardVo bv = bd.boardSelectOne(bidx_int);
 
 			request.setAttribute("bv", bv);
